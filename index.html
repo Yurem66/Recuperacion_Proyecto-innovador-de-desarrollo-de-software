@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TecnoMenu, tu restaurante digital para pedir tus comidas favoritas.">
+    <title>TecnoMenu | Restaurante Digital</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="encabezado">
+        <a href="#" class="logo" onclick="mostrarInicio(); return false;">
+            <span></span> Tecno<span class="resaltado">Menu</span>
+        </a>
+
+        <nav class="navegacion">
+            <a href="#inicio">Inicio</a>
+            <a href="#menu">Menú</a>
+            <a href="#nosotros">Nosotros</a>
+        </nav>
+
+        <div class="acciones">
+            <button id="btnSesion" class="btn-secundario"
+                onclick="abrirLogin()">Iniciar sesión</button>
+            <button class="btn-carrito" onclick="abrirCarrito()">
+                🛒 <span id="contadorCarrito">0</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="hero-contenido">
+                <span class="etiqueta">BIENVENIDO A TECNOMENU</span>
+                <h1>El sabor que te encanta, <span>al alcance de un clic.</span></h1>
+                <p>
+                    Descubre nuestro menú, elige tus platillos favoritos
+                    y prepara tu pedido de manera fácil y rápida.
+                </p>
+                <a href="#menu" class="btn-principal">Explorar menú →</a>
+                <div class="estadisticas">
+                    <div><strong>100%</strong><small>Buen sabor</small></div>
+                    <div><strong>Fácil</strong><small>De ordenar</small></div>
+                    <div><strong>Digital</strong><small>Y práctico</small></div>
+                </div>
+            </div>
+
+            <div class="hero-imagen">
+                <img
+                    src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=85"
+                    alt="Hamburguesa preparada con ingredientes frescos">
+                <div class="tarjeta-flotante">
+                    <span></span>
+                    <div>
+                        <strong>¡Sabor increíble!</strong>
+                        <small>Tu próxima comida favorita</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="seccion-menu">
+            <div class="titulo-seccion">
+                <span class="etiqueta">NUESTROS PLATILLOS</span>
+                <h2>Explora nuestro <span>menú</span></h2>
+                <p>Encuentra algo delicioso para cada antojo.</p>
+            </div>
+
+            <div class="filtros">
+                <button class="filtro activo" onclick="filtrarMenu('Todos', this)">Todos</button>
+                <button class="filtro" onclick="filtrarMenu('Hamburguesas', this)"> Hamburguesas</button>
+                <button class="filtro" onclick="filtrarMenu('Pizzas', this)"> Pizzas</button>
+                <button class="filtro" onclick="filtrarMenu('Bebidas', this)"> Bebidas</button>
+                <button class="filtro" onclick="filtrarMenu('Postres', this)">Postres</button>
+            </div>
+
+            <div id="listaProductos" class="productos"></div>
+        </section>
+
+        <section id="nosotros" class="nosotros">
+            <div class="nosotros-icono"></div>
+            <div>
+                <span class="etiqueta">SOBRE NOSOTROS</span>
+                <h2>La tecnología también tiene sabor.</h2>
+                <p>
+                    TecnoMenu es un proyecto de restaurante digital que
+                    facilita la consulta de platillos y la gestión de pedidos
+                    mediante una página web sencilla, moderna y adaptable.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pie">
+        <a href="#" class="logo"> Tecno<span class="resaltado">Menu</span></a>
+        <p>Proyecto académico de desarrollo de software.</p>
+        <small>© <span id="anio"></span> TecnoMenu. Todos los derechos reservados.</small>
+    </footer>
+
+    <!-- Ventana de inicio de sesión y registro -->
+    <div id="modalLogin" class="modal">
+        <div class="modal-contenido">
+            <button class="cerrar" onclick="cerrarModal('modalLogin')">✕</button>
+            <h2 id="tituloLogin">¡Bienvenido!</h2>
+            <p id="textoLogin">Inicia sesión para continuar.</p>
+
+            <form id="formLogin">
+                <div id="campoNombre" class="campo oculto">
+                    <label for="nombreUsuario">Nombre completo</label>
+                    <input type="text" id="nombreUsuario"
+                        placeholder="Tu nombre" autocomplete="name">
+                </div>
+
+                <div class="campo">
+                    <label for="correoUsuario">Correo electrónico</label>
+                    <input type="email" id="correoUsuario"
+                        placeholder="correo@ejemplo.com"
+                        autocomplete="email" required>
+                </div>
+
+                <div class="campo">
+                    <label for="claveUsuario">Contraseña</label>
+                    <input type="password" id="claveUsuario"
+                        placeholder="Mínimo 6 caracteres"
+                        minlength="6" autocomplete="current-password" required>
+                </div>
+
+                <button type="submit" id="btnEnviarLogin" class="btn-principal ancho">
+                    Iniciar sesión
+                </button>
+            </form>
+
+            <p class="cambiar-modo">
+                <span id="textoCambiar">¿No tienes cuenta?</span>
+                <button id="btnCambiarModo" onclick="cambiarModoLogin()">
+                    Regístrate
+                </button>
+            </p>
+            <p id="mensajeLogin" class="mensaje" role="status"></p>
+        </div>
+    </div>
+
+    <!-- Ventana del carrito -->
+    <div id="modalCarrito" class="modal">
+        <div class="modal-contenido modal-carrito">
+            <button class="cerrar" onclick="cerrarModal('modalCarrito')">✕</button>
+            <h2>🛒 Tu pedido</h2>
+            <p>Revisa los productos que seleccionaste.</p>
+
+            <div id="contenidoCarrito"></div>
+
+            <div class="total-carrito">
+                <span>Total:</span>
+                <strong id="totalCarrito">$0.00</strong>
+            </div>
+
+            <button class="btn-principal ancho" onclick="confirmarPedido()">
+                Confirmar pedido
+            </button>
+            <button class="btn-secundario ancho boton-vaciar" onclick="vaciarCarrito()">
+                Vaciar carrito
+            </button>
+            <p id="mensajePedido" class="mensaje" role="status"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
